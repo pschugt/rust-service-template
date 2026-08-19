@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-template:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Cargo tools
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-generate,cargo-nextest,cargo-deny
+
+      - name: Generate project
+        run: |
+          rm -rf /tmp/generated
+          mkdir -p /tmp/generated
+
+          cargo generate \
+            --path "$GITHUB_WORKSPACE" \
+            --name template-ci-test \
+            --destination /tmp/generated
+
+      - name: Cache Rust
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: /tmp/generated/template-ci-test
+
+      - name: Format
+        working-directory: /tmp/generated/template-ci-test
+        run: cargo fmt --check
+
+      - name: Clippy
+        working-directory: /tmp/generated/template-ci-test
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Test
+        working-directory: /tmp/generated/template-ci-test
+        run: cargo nextest run
+
+      - name: Dependency checks
+        working-directory: /tmp/generated/template-ci-test
+        run: cargo deny check
