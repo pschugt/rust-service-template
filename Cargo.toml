@@ -1,0 +1,82 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+description = "{{project-name}} component - from rust-service-template by @schugtph"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+# one can add more dependencies via cargo to Cargo.toml as shown next: cargo add axum -F axum/http2
+axum = { version = "0.8", features = ["http2", "macros", "multipart"] }
+tokio = { version = "1.53", features = ["rt-multi-thread", "macros", "signal"] }
+
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_repr = "0.1"
+
+http = "1.5"
+http-body-util = "0.1"
+
+bytes = "1.12"
+thiserror = "2.0"
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = [
+  "tracing",
+  "env-filter",
+  "json",
+  "ansi",
+  "fmt",
+] }
+
+lazy_static = "1.5"
+dotenvy = "0.15"
+config = { version = "0.15", default-features = false }
+async-trait = "0.1"
+
+# HTTP middlewares from Tower crate, to be added to router.rs.
+tower-http = { version = "0.7", features = [
+    "trace",
+    "compression-br",
+    "propagate-header",
+    "sensitive-headers",
+    "cors",
+] }
+#
+# SQLx is the recommended safe and performant package to work with relational DBs like PostgreSQL; check official docs
+# sqlx = { version = "0.9", features = [
+#   "runtime-tokio",
+#   "tls-rustls-ring-native-roots",
+#   "postgres",
+#   "uuid",
+#   "json",
+#   "chrono",
+#   "macros",
+#   "migrate"
+# ]}
+
+# OTEL; check official docs
+# opentelemetry = { version = "0.32", features = ["trace", "metrics"] }
+# opentelemetry_sdk = { version = "0.32", features = ["rt-tokio"] }
+# opentelemetry-otlp = { version = "0.32", features = ["http-proto", "reqwest-blocking-client"] }
+# opentelemetry-http = { version = "0.32" }
+# opentelemetry-stdout = { version = "0.32", features = ["trace"] }
+# opentelemetry-appender-tracing = { version = "0.32" }
+# opentelemetry-semantic-conventions = { version = "0.32" }
+# tracing-opentelemetry = { version = "0.33" }
+
+# OpenAPI; check official docs
+# utoipa = { version = "5.5", features = ["axum_extras", "uuid", "chrono"] }
+# utoipa-axum = "0.2"
+# utoipa-swagger-ui = { version = "9.0", features = ["axum"] }
+# # utoipa-redoc = { version = "5.0", features = ["axum"] }
+# # utoipa-rapidoc = { version = "5.0", features = ["axum"] }
+# # utoipa-scalar = { version = "0.2", features = ["axum"] }
+
+[dev-dependencies]
+# mockito = "1.7"  # mockito is recommended when requiring mocking network requests to either external or internal services
+temp-env = { version = "0.3", features = [
+  "async_closure",
+] } # it is highly recommended the usage of cargo nextest run instead of cargo test; this way each test runs on its own process
+tower = { version = "0.5", features = ["util"] }

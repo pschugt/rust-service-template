@@ -1,0 +1,22 @@
+use crate::{api::router::AppState, models::status::Status};
+use axum::{Json, Router, routing::get};
+use http::StatusCode;
+use tracing::debug;
+
+/// Status Router - contains one single GET health endpoint, mostly used for OpenShift probes
+pub fn create_route() -> Router<AppState> {
+  Router::new().route("/status", get(get_status))
+}
+/// This is a private route that won't be documented.
+///
+/// Unless you run: `cargo doc --document-private-items --open`
+async fn get_status() -> (StatusCode, Json<Status>) {
+  debug!("Returning status info");
+
+  (
+    StatusCode::OK,
+    Json(Status {
+      status: "Ok".to_owned(),
+    }),
+  )
+}
