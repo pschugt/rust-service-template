@@ -3,7 +3,7 @@ name = "{{project-name}}"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.97.1"
-description = "{{project-name}} component - from rust-service-template by @schugtph"
+description = "{{project-name}} component - from rust-service-template by @pschugt"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
