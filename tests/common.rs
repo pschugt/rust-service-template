@@ -1,10 +1,11 @@
-use std::sync::Arc;
 use axum::body::Body;
 use axum::extract::Request;
 use axum::http::header::CONTENT_TYPE;
 use axum::http::request;
 use axum::response::Response;
 use http_body_util::BodyExt;
+use std::sync::Arc;
+
 use {{crate_name}}::api::router::AppState;
 use {{crate_name}}::handlers::example_handler::ExampleHandler;
 use {{crate_name}}::services::example_service::ExampleService;

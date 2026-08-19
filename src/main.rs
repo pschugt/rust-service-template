@@ -1,8 +1,9 @@
+use std::net::SocketAddr;
+use std::sync::LazyLock;
+
 use {{crate_name}}::api::router::serve;
 use {{crate_name}}::config::settings::SETTINGS;
 use {{crate_name}}::errors::error::Error;
-use std::net::SocketAddr;
-use std::sync::LazyLock;
 use tracing_subscriber::{Layer, Registry, layer::SubscriberExt};
 
 #[tokio::main]
